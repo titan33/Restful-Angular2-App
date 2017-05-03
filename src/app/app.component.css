@@ -1,0 +1,14 @@
+.button {
+  min-height: 50px;
+  min-width: 800px;
+  font-size: 30px;
+  line-height: 20px;
+}
+
+.tablelike {
+  display: table;
+}
+.tablelike li {
+  width:50%;
+  display:table-cell;
+}
