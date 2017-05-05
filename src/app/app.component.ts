@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { JsonConvert } from "json2typescript";
 import 'rxjs/add/operator/map'
 import {HotelService} from "./hotel.service";
 import {HotelPage} from "./hotel-page";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ import {HotelPage} from "./hotel-page";
 export class AppComponent implements OnInit {
 
   title = 'City Hotels';
-  hotelsPages: Array<HotelPage> = [];
+  hotelsPage: Array<HotelPage> = [];
+  // @Input() results: Observable<any>;
+  // @Output() searchEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private hotelService: HotelService) {
   }
@@ -22,11 +25,17 @@ export class AppComponent implements OnInit {
     this.retrieveHotels();
   }
 
+  onSearch(inputCity: string,inputCountry: string,inputPage: number, maxPage: number): void {
+
+    this.hotelService.retrieveCityHotels(inputCity, inputCountry,inputPage,maxPage,'ASC');
+    this.hotelsPage.pop();
+    this.hotelsPage = this.hotelService.hotelsPage;
+  }
+
   retrieveHotels(): void {
 
-    this.hotelService.retrieveCityHotels('Sydney', 'Australia',0,3,'DESC').subscribe(
-      data => this.hotelsPages.push(JsonConvert.deserializeString(JSON.stringify(data), HotelPage)),
-      error => console.log("Error happened" + error),
-      () => console.log("service completed"))
+    this.hotelService.retrieveCityHotels('Sydney', 'Australia',0,3,'DESC');
+    this.hotelsPage = this.hotelService.hotelsPage;
   }
+
 }

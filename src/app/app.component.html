@@ -1,12 +1,20 @@
-<div align="center" style="background-color:greenyellow">
+<div align="center" style="background-color:greenyellow;font-size:24px">
 <h1 align="center">
   {{title}}
 </h1>
 </div>
-
-<div *ngFor="let hotelspage of hotelsPages" align="center" height="20%" style="background-color: indianred">
+<div align="left" style="background-color: aqua; width:60%" height="50">
+  <h3>
+     City:<input #inputCity type="text" ng-model="searchText" ng-change="change(text)" value="Bath" />
+     Country:<input #inputCountry type="text" ng-model="searchText" ng-change="change(text)" value="UK" />
+     Page:<input #inputPage type="number" ng-model="searchNumber" ng-change="change(number)" value="0" min="0" max="10"/>
+     Max Page:<input #maxPage type="number" ng-model="searchNumber" ng-change="change(number)" value="1" min="1" max="5"/>
+  </h3>
+  <button style="background-color:black;color:white;font-size:20px" (click)="onSearch(inputCity.value,inputCountry.value,inputPage.value, maxPage.value)">Search</button>
+</div>
+<div *ngFor="let hotelpage of hotelsPage" align="center" style="background-color: indianred">
 <h2>
-  <div *ngFor="let member of hotelspage.content" class="tablelike">
+  <div *ngFor="let member of hotelpage.content" class="tablelike">
     City: {{ member.city.name }}<br/>
     State: {{member.city.state}}<br/>
     Country: {{member.city.country}}<br/>
@@ -17,6 +25,11 @@
     <li align="left" style="background-color:gold;width:70%">Hotel Zip : {{member.zip}} </li><br/>
   </ul>
   </div>
+  <div align="left" style="color:white">Page Number: {{hotelpage.number + 1}} of {{hotelpage.totalPages}}
+    <div *ngFor="let link of hotelpage.links">
+      <a *ngIf="(hotelpage.last != hotelpage.first) && link.rel === 'first'" target="_blank" href="{{link.href}}">{{link.rel}}</a>
+    </div>
+  </div>
+
 </h2>
 </div>
-
