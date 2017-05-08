@@ -25,7 +25,8 @@ export class HotelService {
 
     return this.http.get(`/hotels/${city}/${country}?page=${page}&size=${size}&sort=${sort}`).
                                                 do(res => console.log('HTTP response:' , res)).
-                                         map(response => response.json()).subscribe(data => this.hotelsPage.push(JsonConvert.deserializeString(JSON.stringify(data), HotelPage)),
+                                         map(response => response.json()).subscribe(data => {this.hotelsPage.pop();
+                                                                                             this.hotelsPage.push(JsonConvert.deserializeString(JSON.stringify(data), HotelPage))},
                                                                                     error => console.log("Error happened" + error),
                                                                                     () => console.log("service completed"));
   }

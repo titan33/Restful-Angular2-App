@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   onSearch(inputCity: string,inputCountry: string,inputPage: number, maxPage: number): void {
 
     this.hotelService.retrieveCityHotels(inputCity, inputCountry,inputPage,maxPage,'ASC');
-    this.hotelsPage.pop();
     this.hotelsPage = this.hotelService.hotelsPage;
   }
 
